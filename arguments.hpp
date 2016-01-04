@@ -192,7 +192,7 @@ argp_option Arguments::options[] = {
 	{"end-frequency", 'y', "FREQ", 0, "End frequency in MHz (default: 108)"},
 	{"sample-rate", 'r', "RATE", 0, "Samplerate in Msamples/s (default: 2)"},
 	{"fft-width", 'w', "COUNT", 0, "Width of FFT in samples (default: 1000)"},
-	{"step", 'z', "FREQ", 0, "Increment step in MHz (default: sample_rate / 4)"},
+	{"step", 'z', "FREQ", 0, "Increment step in MHz (default: sample-rate / 4)"},
 	{"time", 'p', "TIME", 0, "Time in seconds to scan on each frequency (default: 1)"},
 	{"output-csv", 'o', "OUTCSV", 0, "Output results to CSV file (default: [none])"},
 	{0}
