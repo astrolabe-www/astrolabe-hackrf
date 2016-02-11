@@ -36,11 +36,12 @@ public:
 	TopBlock(double centre_freq_1, double centre_freq_2, double sample_rate,
 		 double fft_width, double bandwidth1, double bandwidth2,
 		 double step, unsigned int avg_size, double spread,
-		 double threshold, double ptime, const std::string &outcsv) :
+		 double threshold, double ptime, const std::string &outcsv,
+		 const std::string &device_args) :
 		gr::top_block("Top Block"),
 		vector_length(sample_rate / fft_width),
 		window(GetWindow(vector_length)),
-		source(osmosdr::source::make()), /* OsmoSDR Source */
+		source(osmosdr::source::make(device_args)), /* OsmoSDR Source */
 		stv(gr::blocks::stream_to_vector::make(sizeof(float) * 2, vector_length)), /* Stream to vector */
 		/* Based on the logpwrfft (a block implemented in python) */
 		fft(gr::fft::fft_vcc::make(vector_length, true, window, false, 1)),

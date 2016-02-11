@@ -106,6 +106,11 @@ public:
 		return outcsv;
 	}
 
+	std::string get_device_args()
+	{
+		return device_args;
+	}
+
 private:
 	static error_t s_parse_opt(int key, char *arg, struct argp_state *state)
 	{
@@ -153,6 +158,9 @@ private:
 		case 'o':
 			outcsv = std::string(arg);
 			break;
+		case 'd':
+			device_args = std::string(arg);
+			break;
 		case ARGP_KEY_ARG:
 			if (state->arg_num > 0)
 				argp_usage(state);
@@ -180,6 +188,7 @@ private:
 	double step;
 	double ptime;
 	std::string outcsv;
+	std::string device_args;
 };
 
 argp_option Arguments::options[] = {
@@ -195,6 +204,7 @@ argp_option Arguments::options[] = {
 	{"step", 'z', "FREQ", 0, "Increment step in MHz (default: sample-rate / 4)"},
 	{"time", 'p', "TIME", 0, "Time in seconds to scan on each frequency (default: 1)"},
 	{"output-csv", 'o', "OUTCSV", 0, "Output results to CSV file (default: [none])"},
+	{"device-args", 'd', "DEVICEARGS", 0, "Device arguments for OsmoSDR (default: [none])"},
 	{0}
 };
 
