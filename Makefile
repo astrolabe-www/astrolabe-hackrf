@@ -20,18 +20,20 @@
 VERSION = 20160104
 CXXFLAGS ?= -O3 -march=native -fomit-frame-pointer
 CXXFLAGS +=-DVERSION="\"gr-scan $(VERSION)\"" -Wall
-LDLIBS = -lgnuradio-filter -lgnuradio-blocks -lgnuradio-pmt -lgnuradio-fft -lgnuradio-runtime -lgnuradio-osmosdr -lboost_system
+LDLIBS = -largp -lgnuradio-filter -lgnuradio-blocks -lgnuradio-pmt -lgnuradio-fft -lgnuradio-runtime -lgnuradio-osmosdr -lboost_system
 
-PREFIX ?= /usr
+PREFIX ?= /Applications/GNURadio.app/Contents/MacOS/usr
 DESTDIR ?=
 BINDIR ?= $(PREFIX)/bin
 LIBDIR ?= $(PREFIX)/lib
+BREWLIBDIR ?= /usr/local/lib
 MANDIR ?= $(PREFIX)/share/man
+INCDIR ?= $(PREFIX)/include
 
 all: gr-scan
 
 gr-scan: *.cpp *.hpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) *.cpp -o gr-scan $(LDLIBS) $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(LIBDIR) -L$(BREWLIBDIR) *.cpp -o gr-scan $(LDLIBS) $(LDFLAGS)
 clean:
 	rm -f gr-scan
 
