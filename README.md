@@ -1,3 +1,8 @@
+pre-requisite
+=======
+https://github.com/ktemkin/gnuradio-for-mac-without-macports
+
+
 gr-scan
 =======
 
