@@ -1,7 +1,10 @@
-pre-requisite
+dependencies
 =======
-https://github.com/ktemkin/gnuradio-for-mac-without-macports
-
+- `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+- `brew install hackrf`
+- `brew install argp-standalone`
+- https://www.xquartz.org/
+- https://github.com/ktemkin/gnuradio-for-mac-without-macports
 
 gr-scan
 =======
