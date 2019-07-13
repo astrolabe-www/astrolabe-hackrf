@@ -1,2 +1,3 @@
-gr-scan
+gr-scan/gr-scan
 .DS*
+*pyc
