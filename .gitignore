@@ -1,3 +1,4 @@
 gr-scan/gr-scan
 .DS*
-*pyc
+*.pyc
+sketches/*.py
