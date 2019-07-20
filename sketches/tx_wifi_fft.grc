@@ -141,6 +141,53 @@
     </param>
   </block>
   <block>
+    <key>variable_check_box</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>false</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(152, 136)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>grid_pos</key>
+      <value></value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>on_off</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>notebook</key>
+      <value></value>
+    </param>
+    <param>
+      <key>true</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>variable</key>
     <param>
       <key>comment</key>
@@ -164,7 +211,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>10e6</value>
+      <value>1e6</value>
     </param>
   </block>
   <block>
@@ -191,7 +238,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(80, 392)</value>
+      <value>(32, 392)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -242,7 +289,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>freq</key>
@@ -250,7 +297,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(96, 252)</value>
+      <value>(56, 252)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -329,6 +376,57 @@
     </param>
   </block>
   <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>on_off</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(360, 388)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_multiply_xx</key>
     <param>
       <key>alias</key>
@@ -344,11 +442,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(304, 360)</value>
+      <value>(232, 376)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -356,7 +454,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>blocks_multiply_xx_0</value>
+      <value>blocks_multiply_xx_0_0</value>
     </param>
     <param>
       <key>type</key>
@@ -399,7 +497,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(464, 148)</value>
+      <value>(512, 148)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1354,7 +1452,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(704, 332)</value>
+      <value>(704, 348)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1641,13 +1739,13 @@
   </block>
   <connection>
     <source_block_id>analog_noise_source_x_0</source_block_id>
-    <sink_block_id>blocks_multiply_xx_0</sink_block_id>
+    <sink_block_id>blocks_multiply_xx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>analog_sig_source_x_0</source_block_id>
-    <sink_block_id>blocks_multiply_xx_0</sink_block_id>
+    <sink_block_id>blocks_multiply_xx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1658,14 +1756,20 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_multiply_xx_0</source_block_id>
+    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
     <sink_block_id>blocks_throttle_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_multiply_xx_0</source_block_id>
+    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
     <sink_block_id>osmosdr_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_multiply_xx_0_0</source_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
