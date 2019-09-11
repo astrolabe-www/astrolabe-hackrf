@@ -218,7 +218,7 @@
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
-      <value>0.6</value>
+      <value>0.9</value>
     </param>
     <param>
       <key>alias</key>
@@ -293,7 +293,7 @@
     </param>
     <param>
       <key>freq</key>
-      <value>10000</value>
+      <value>1e6</value>
     </param>
     <param>
       <key>_coordinate</key>
