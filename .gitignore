@@ -1,4 +1,4 @@
 gr-scan/gr-scan
 .DS*
 *.pyc
-sketches/*.py
+grc/*.py
