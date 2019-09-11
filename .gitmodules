@@ -1,0 +1,3 @@
+[submodule "python/pyhackrf"]
+	path = python/pyhackrf
+	url = git@github.com:thiagohersan/pyhackrf.git
