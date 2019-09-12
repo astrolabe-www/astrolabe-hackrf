@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>tx_fft</value>
+      <value>tx_fm_fft</value>
     </param>
     <param>
       <key>max_nouts</key>
