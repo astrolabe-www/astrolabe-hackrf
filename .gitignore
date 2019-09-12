@@ -2,3 +2,5 @@ gr-scan/gr-scan
 .DS*
 *.pyc
 grc/*.py
+
+cpp/tx-rx
