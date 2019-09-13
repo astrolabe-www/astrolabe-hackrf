@@ -9,7 +9,7 @@ MIN_FREQ_MHZ = 50
 MAX_FREQ_MHZ = 150
 SAMPLE_RATE_MHZ = 20
 
-tx = HackRF(device_index = 1)
+tx = HackRF(device_index = 0)
 tx.sample_rate = SAMPLE_RATE_MHZ * 1e6
 tx.close()
 

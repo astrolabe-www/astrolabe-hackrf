@@ -4,3 +4,5 @@ gr-scan/gr-scan
 grc/*.py
 
 cpp/tx-rx
+
+python/*.csv
