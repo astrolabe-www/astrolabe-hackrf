@@ -6,3 +6,5 @@ grc/*.py
 cpp/tx-rx
 
 python/*.csv
+
+Processing/**/data
