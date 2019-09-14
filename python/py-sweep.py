@@ -38,7 +38,7 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     rx.close()
 
     Ps, fs = plt.psd(samples, NFFT=FFT_SIZE, Fs=rx.sample_rate/1e6, Fc=rx.center_freq/1e6)
-    
+
     for i in range(len(Ps)):
         freq_to_power[fs[i]] = np.log(Ps[i])
 
