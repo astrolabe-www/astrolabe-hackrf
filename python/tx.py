@@ -22,7 +22,7 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
         tx.open()
         tx.center_freq = txf * 1e6
         tx.enable_amp()
-        tx.txvga_gain = 39
+        tx.txvga_gain = 42
         tx.transmit_noise()
         sleep(.1)
         tx.stop_tx()
