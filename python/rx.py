@@ -22,9 +22,9 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
 
     rx.open()
     rx.center_freq = rxf * 1e6
-    tx.enable_amp()
-    tx.lna_gain = 16
-    tx.vga_gain = 22
+    rx.enable_amp()
+    rx.lna_gain = 16
+    rx.vga_gain = 22
     rx.receive_to_buffer()
     raw_input("Press Enter to stop...")
 
