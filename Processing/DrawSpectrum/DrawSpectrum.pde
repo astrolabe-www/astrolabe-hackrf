@@ -44,7 +44,6 @@ void setup() {
 
   pushMatrix();
   translate(width/2, height/2);
-  rotate(random(-TWO_PI, TWO_PI));
 
   for (TableRow row : table.rows()) {
     pushMatrix();
