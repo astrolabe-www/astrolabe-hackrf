@@ -6,8 +6,7 @@ sys.path.append('./pyhackrf')
 from libhackrf import *
 
 MIN_FREQ_MHZ = 50
-# MAX_FREQ_MHZ = 2550
-MAX_FREQ_MHZ = 150
+MAX_FREQ_MHZ = 2550
 SAMPLE_RATE_MHZ = 20
 
 FFT_SIZE = 64
@@ -17,6 +16,9 @@ rx.sample_rate = SAMPLE_RATE_MHZ * 1e6
 rx.close()
 
 freq_to_power = {}
+
+name = raw_input("Enter a name/nickname: ")
+filename = "out-%s.csv" % name
 
 for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     print("Fc = %s" % rxf)
@@ -28,7 +30,7 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     rx.lna_gain = 16
     rx.vga_gain = 22
     rx.receive_to_buffer()
-    raw_input("Press Enter to stop...")
+    sleep(0.2)
 
     samples = rx.stop_rx()
     mean = np.mean(samples)
@@ -42,6 +44,6 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     for i in range(len(Ps)):
         freq_to_power[fs[i]] = np.log(Ps[i])
 
-with open('out-sweep.csv', 'w') as out:
+with open(filename, 'w') as out:
     for (f,p) in freq_to_power.items():
         out.write('%s,%s\n' % (f, p))
