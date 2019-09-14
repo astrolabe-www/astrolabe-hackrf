@@ -16,6 +16,8 @@ rx = HackRF(device_index = 0)
 rx.sample_rate = SAMPLE_RATE_MHZ * 1e6
 rx.close()
 
+freq_to_power = {}
+
 for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     print("Fc = %s" % rxf)
     raw_input("Press Enter to start...")
