@@ -1,4 +1,6 @@
 import sys
+import os.path
+
 from time import sleep
 import matplotlib.pyplot as plt
 
@@ -44,6 +46,6 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     for i in range(len(Ps)):
         freq_to_power[fs[i]] = np.log(Ps[i])
 
-with open(filename, 'w') as out:
+with open(os.path.join('out', filename), 'w') as out:
     for (f,p) in freq_to_power.items():
         out.write('%s,%s\n' % (f, p))
