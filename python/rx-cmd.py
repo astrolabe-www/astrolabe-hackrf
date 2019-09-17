@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import sys
+import os.path
+
 import getopt
 from time import sleep
 
@@ -12,9 +14,12 @@ def main(argv):
     device_index = 0
     fs = 20
     fc = 90
-    outfilename = 'out'
+    outfilename = 'out.csv'
 
-    options, remainder = getopt.getopt(sys.argv[1:], 'c:s:i:o:', ['fc=', 'fs=', 'id=', 'out='])
+    FFT_SIZE = 64
+    freq_to_power = {}
+
+    options, remainder = getopt.getopt(argv, 'c:s:i:o:', ['fc=', 'fs=', 'id=', 'out='])
     for opt, arg in options:
         if opt in ('-c', '--fc'):
             fc = int(arg)
@@ -28,16 +33,24 @@ def main(argv):
     rx = HackRF(device_index = device_index)
     rx.sample_rate = fs * 1e6
     rx.center_freq = fc * 1e6
+    rx.enable_amp()
+    rx.lna_gain = 16
+    rx.vga_gain = 22
 
-    samples = rx.read_samples(10e6)
+    samples = rx.read_samples(5e6)
+    mean = np.mean(samples)
+    samples = samples - mean;
+
     rx.close()
 
-    Ps, fs = psd(samples, NFFT=1024, Fs=rx.sample_rate/1e6, Fc=rx.center_freq/1e6)
-    Ps[511] = Ps[512] = Ps[513] = Ps[514]
+    Ps, fs = psd(samples, NFFT=FFT_SIZE, Fs=rx.sample_rate/1e6, Fc=rx.center_freq/1e6)
 
-    with open('%s.csv' % outfilename, 'a') as out:
+    for i in range(len(Ps)):
+        freq_to_power[fs[i]] = np.log(Ps[i])
+
+    with open(os.path.join('out', outfilename), 'a') as out:
         for i in range(len(Ps)):
-            out.write('%s,%s\n' % (fs[i], Ps[i]))
+            out.write('%s,%s\n' % (fs[i], freq_to_power[fs[i]]))
 
     sys.exit()
 
