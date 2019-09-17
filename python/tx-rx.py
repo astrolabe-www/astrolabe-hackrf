@@ -10,6 +10,7 @@ MIN_FREQ_MHZ = 50
 MAX_FREQ_MHZ = 2550
 SAMPLE_RATE_MHZ = 20
 
+# Last HackRf to be plugged in is id=0
 RX_ID = 0
 
 tx = HackRF(device_index = (1 - RX_ID))
@@ -30,5 +31,6 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     rxp.wait()
     tx.stop_tx()
     tx.close()
+    sleep(0.01)
 
 sleep(0.5)

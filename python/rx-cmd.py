@@ -37,7 +37,7 @@ def main(argv):
     rx.lna_gain = 16
     rx.vga_gain = 22
 
-    samples = rx.read_samples(5e6)
+    samples = rx.read_samples(4e6)
     mean = np.mean(samples)
     samples = samples - mean;
 
