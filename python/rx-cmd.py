@@ -52,7 +52,6 @@ def main(argv):
         for i in range(len(Ps)):
             out.write('%s,%s\n' % (fs[i], freq_to_power[fs[i]]))
 
-    sys.exit()
-
 if __name__ == "__main__":
     main(sys.argv[1:])
+    sys.exit()

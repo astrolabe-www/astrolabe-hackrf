@@ -30,3 +30,5 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     rxp.wait()
     tx.stop_tx()
     tx.close()
+
+sleep(0.5)
