@@ -19,7 +19,7 @@ void setup() {
   size(1000, 1000);
   background(255);
   stroke(0, 200);
-  smooth(4);
+  smooth(8);
 
   table = loadTable(filename + ".csv");
   mRanges = new ArrayList<PVector>();
@@ -38,7 +38,7 @@ void setup() {
   mRanges.add(new PVector(50, 750));
   mRanges.add(new PVector(750, 1000));
   mRanges.add(new PVector(1000, 2000));
-  mRanges.add(new PVector(2000, 2700));
+  mRanges.add(new PVector(2000, 3000));
 
   float subRadius = 0.5 * width / mRanges.size();
 
@@ -61,6 +61,7 @@ void setup() {
     freqsVals.add(new PowerPoint(f, p, radiusGroup));
   }
   Collections.sort(freqsVals);
+  mRanges.get(mRanges.size() - 1).y = freqsVals.get(freqsVals.size() - 1).frequency;
 
   // average vals and record max/min for each range
   for (int i = 0; i < freqsVals.size(); i++) {
@@ -86,6 +87,7 @@ void setup() {
 
   pushMatrix();
   translate(width/2, height/2);
+  stroke(70);
 
   Collections.reverse(freqsAverageVals);
   for (int i = 0; i < freqsAverageVals.size(); i++) {
