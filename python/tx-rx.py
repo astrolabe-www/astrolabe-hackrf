@@ -20,7 +20,7 @@ tx.close()
 name = raw_input("Enter a name/nickname: ")
 filename = "out-%s.csv" % name
 
-for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
+for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ / 2):
     print('Fc = %s' % rxf)
     tx.open()
     tx.center_freq = rxf * 1e6
