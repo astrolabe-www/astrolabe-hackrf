@@ -107,7 +107,7 @@ void setup() {
   }
 
   popMatrix();
-  save(dataPath(filename+".jpg"));
+  save(dataPath(filename + "-" + AVERAGE_SIZE + ".jpg"));
 }
 
 void draw() {
