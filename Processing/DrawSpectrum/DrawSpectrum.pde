@@ -18,6 +18,8 @@ int currentAverageSize;
 int AVERAGE_SIZE_MAX = 150;
 int AVERAGE_SIZE_SAVE = 128;
 
+boolean pauseAverageProgression = true;
+
 void setup() {
   size(1000, 1000);
   background(255);
@@ -53,6 +55,12 @@ void setup() {
   }
   Collections.sort(freqsVals);
   mRanges.get(mRanges.size() - 1).y = freqsVals.get(freqsVals.size() - 1).frequency;
+
+  // padding
+  for(int i = 0; i < AVERAGE_SIZE_MAX; i++) {
+    PowerPoint lp = freqsVals.get(freqsVals.size() - 1);
+    freqsVals.add(new PowerPoint(lp.frequency, lp.power, lp.radiusGroup));
+  }
 
   averagePoints(freqsVals, freqsAverageVals, AVERAGE_SIZE_SAVE);
   drawPoints(freqsAverageVals);
@@ -103,7 +111,7 @@ void drawPoints(ArrayList<PowerPoint> averagePoints) {
   float subRadius = 0.5 * width / mRanges.size();
   pushMatrix();
   translate(width/2, height/2);
-  stroke(70);
+  strokeWeight(2);
 
   Collections.reverse(averagePoints);
   for (int i = 0; i < averagePoints.size(); i++) {
@@ -116,8 +124,10 @@ void drawPoints(ArrayList<PowerPoint> averagePoints) {
     float angle = map(f, mRanges.get(r).x, mRanges.get(r).y, 0, TWO_PI); 
     float lineLength = map(p, mLimits.get(r).x, mLimits.get(r).y, 1, subRadius);
     float lineStart = r * subRadius;
+    float colorRotate = (float(r) / mRanges.size()) * PI;
 
     rotate(angle);
+    stroke(map(cos(angle + colorRotate), -1, 1, 235, 100));
     line(lineStart, 0, lineStart + lineLength, 0);
     popMatrix();
   }
@@ -127,13 +137,23 @@ void drawPoints(ArrayList<PowerPoint> averagePoints) {
 
 
 void draw() {
-  background(255);
-  averagePoints(freqsVals, freqsAverageVals, abs(currentAverageSize));
-  drawPoints(freqsAverageVals);
 
-  currentAverageSize = currentAverageSize + 2;
-  if (currentAverageSize > AVERAGE_SIZE_MAX) {
-    currentAverageSize = -AVERAGE_SIZE_MAX;
+  if (pauseAverageProgression) {
+    delay(1000);
+    pauseAverageProgression = false;
+  } else {
+    background(255);
+    averagePoints(freqsVals, freqsAverageVals, abs(currentAverageSize));
+    drawPoints(freqsAverageVals);
+
+    currentAverageSize = currentAverageSize + 4;
+    if (currentAverageSize > AVERAGE_SIZE_MAX) {
+      currentAverageSize = -AVERAGE_SIZE_MAX;
+    }
+
+    if (currentAverageSize == AVERAGE_SIZE_MAX || abs(currentAverageSize) < 4) {
+      pauseAverageProgression = true;
+    }
+    delay(1);
   }
-  delay(1);
 }
