@@ -6,5 +6,3 @@ grc/*.py
 cpp/tx-rx
 
 python/out
-
-Processing/**/data

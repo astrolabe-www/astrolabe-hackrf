@@ -28,7 +28,8 @@ void setup() {
 
   currentAverageSize = 2;
 
-  table = loadTable(filename + ".csv");
+  table = loadTable(dataPath("csvs/" + filename + ".csv"));
+
   mRanges = new ArrayList<PVector>();
   mLimits = new ArrayList<PVector>();
   freqsVals = new ArrayList<PowerPoint>();
@@ -64,7 +65,7 @@ void setup() {
 
   averagePoints(freqsVals, freqsAverageVals, AVERAGE_SIZE_SAVE);
   drawPoints(freqsAverageVals);
-  save(dataPath(filename + "-" + AVERAGE_SIZE_SAVE + ".jpg"));
+  save(dataPath("jpgs/" + filename + "-" + AVERAGE_SIZE_SAVE + ".jpg"));
 }
 
 void averagePoints(ArrayList<PowerPoint> rawPoints, ArrayList<PowerPoint> averagePoints, int average_size) {
