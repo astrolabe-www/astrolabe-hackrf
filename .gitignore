@@ -6,3 +6,4 @@ grc/*.py
 cpp/tx-rx
 
 python/out
+venv/
