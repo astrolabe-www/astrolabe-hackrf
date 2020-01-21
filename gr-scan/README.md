@@ -3,6 +3,7 @@ dependencies
 - `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 - `brew install hackrf`
 - `brew install argp-standalone`
+- on Linux: remove -largp from Makefile (argp comes with glibc)
 - https://www.xquartz.org/
 - https://github.com/ktemkin/gnuradio-for-mac-without-macports
 
