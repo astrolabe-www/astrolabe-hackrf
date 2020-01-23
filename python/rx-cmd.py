@@ -46,11 +46,12 @@ def main(argv):
     Ps, fs = psd(samples, NFFT=FFT_SIZE, Fs=rx.sample_rate/1e6, Fc=rx.center_freq/1e6)
 
     for i in range(len(Ps)):
-        freq_to_power[fs[i]] = np.log(Ps[i])
+        if (fs[i] % 1.0 == 0.0):
+            freq_to_power[fs[i]] = np.log(Ps[i])
 
     with open(os.path.join('out', outfilename), 'a') as out:
-        for i in range(len(Ps)):
-            out.write('%s,%s\n' % (fs[i], freq_to_power[fs[i]]))
+        for freq in freq_to_power:
+            out.write('%s,%s\n' % (freq, freq_to_power[freq]))
 
 if __name__ == "__main__":
     main(sys.argv[1:])
