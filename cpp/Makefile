@@ -1,8 +1,6 @@
 CXXFLAGS ?= -O3 -march=native -fomit-frame-pointer -Wall
 LDLIBS = -lhackrf
 
-# PREFIX ?= /Applications/GNURadio.app/Contents/MacOS/usr
-# LIBDIR ?= $(PREFIX)/lib
 INCDIR ?= /usr/local/include/libhackrf
 BREWLIBDIR ?= /usr/local/lib
 
