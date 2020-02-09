@@ -13,6 +13,8 @@ SAMPLE_RATE_MHZ = 20
 
 FFT_SIZE = 64
 
+outfilename = 'out-sweep.csv'
+
 rx = HackRF(device_index = 0)
 rx.sample_rate = SAMPLE_RATE_MHZ * 1e6
 rx.close()
@@ -44,6 +46,6 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     for i in range(len(Ps)):
         freq_to_power[fs[i]] = np.log(Ps[i])
 
-with open('out-sweep.csv', 'w') as out:
+with open(os.path.join('out', outfilename), 'w') as out:
     for (f,p) in freq_to_power.items():
         out.write('%s,%s\n' % (f, p))
