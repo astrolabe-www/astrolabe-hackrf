@@ -18,7 +18,8 @@ unsigned int SAMPLE_RATE_MHZ = 20;
 int RX_ID = 0;
 
 uint64_t samples_to_rxfer = 2e6;
-uint64_t bytes_to_rxfer = samples_to_rxfer * 2;
+uint64_t bytes_to_rxfer = 2 * samples_to_rxfer;
+int8_t* rxsamples;
 
 int tx_callback(hackrf_transfer* transfer) {
     for(unsigned int i = 0; i < transfer->buffer_length; i++)
@@ -32,12 +33,13 @@ int rx_callback(hackrf_transfer* transfer) {
     if (bytes_to_read >= bytes_to_rxfer) {
         bytes_to_read = bytes_to_rxfer;
     }
-    bytes_to_rxfer -= bytes_to_read;
 
-    // TODO: send this to a proper place
+    int offset = 2 * samples_to_rxfer - bytes_to_rxfer;
+
     for(unsigned int i = 0; i < bytes_to_read; i++)
-        transfer->buffer[i] = transfer->buffer[i];
+        rxsamples[offset + i] = transfer->buffer[i];
 
+    bytes_to_rxfer -= bytes_to_read;
     return -1 * (bytes_to_rxfer == 0);
 }
 
@@ -55,6 +57,7 @@ int check(int result, const char msg[]) {
                 msg,
                 hackrf_error_name((hackrf_error)result),
                 result);
+        free(rxsamples);
         hackrf_exit();
         return HACKRF_ERROR_OTHER;
     } else {
@@ -66,6 +69,8 @@ int main(int argc, char** argv) {
 	unsigned int lna_gain=16, vga_gain=22, txvga_gain=42;
     uint32_t sample_rate_hz = SAMPLE_RATE_MHZ * 1e6;
     uint32_t txrx_freq_hz = MIN_FREQ_MHZ * 1e6;
+
+    rxsamples = (int8_t*) calloc(bytes_to_rxfer, sizeof(int8_t));
 
     char outfilename[128];
     strcpy(outfilename, "out/out_");
@@ -129,7 +134,7 @@ int main(int argc, char** argv) {
 
 
         // start rx
-        bytes_to_rxfer = samples_to_rxfer * 2;
+        bytes_to_rxfer = 2 * samples_to_rxfer;
         if(check(hackrf_set_freq(rx_device, txrx_freq_hz) |
                  hackrf_start_rx(rx_device, rx_callback, NULL), "rx start")) {
             return EXIT_FAILURE;
@@ -148,8 +153,10 @@ int main(int argc, char** argv) {
             return EXIT_FAILURE;
         }
 
+        // have samples in rxsamples
+        // TODO: fft or output
+
         /*
-        TODO: 
         mean = np.mean(samples)
         samples = samples - mean;
 
@@ -179,5 +186,6 @@ int main(int argc, char** argv) {
     }
 
     hackrf_exit();
+    free(rxsamples);
     return EXIT_SUCCESS;
 }
