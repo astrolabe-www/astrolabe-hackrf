@@ -27,9 +27,10 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     tx.enable_amp()
     tx.txvga_gain = 42
     tx.transmit_noise()
+
     rxp = Popen(['./rx-cmd.py', '-c%s'%rxf, '-s%s'%SAMPLE_RATE_MHZ, '-i%s'%RX_ID, '-o%s'%filename])
     rxp.wait()
-    tx.stop_tx()
+
     tx.close()
     sleep(0.1)
 

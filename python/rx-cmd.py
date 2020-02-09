@@ -42,6 +42,7 @@ def main(argv):
     samples = samples - mean;
 
     rx.close()
+    sleep(0.1)
 
     Ps, fs = psd(samples, NFFT=FFT_SIZE, Fs=rx.sample_rate/1e6, Fc=rx.center_freq/1e6)
 
