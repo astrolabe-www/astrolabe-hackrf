@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -65,6 +66,13 @@ int main(int argc, char** argv) {
 	unsigned int lna_gain=16, vga_gain=22, txvga_gain=42;
     uint32_t sample_rate_hz = SAMPLE_RATE_MHZ * 1e6;
     uint32_t txrx_freq_hz = MIN_FREQ_MHZ * 1e6;
+
+    char outfilename[128];
+    strcpy(outfilename, "out/out_");
+
+    fprintf(stdout, "Enter a name/nickname: ");
+    scanf("%[^\n]%*c", &outfilename[8]);
+    strcat(outfilename, ".csv");
 
     /////// init hackrf env
     if(check(hackrf_init(), "hackrf_init")) {
@@ -155,6 +163,9 @@ int main(int argc, char** argv) {
             for freq in freq_to_power:
                 out.write('%s,%s\n' % (freq, freq_to_power[freq]))
         */
+        FILE *outfile = fopen(outfilename,"a");
+        fprintf(outfile, "%d,%d\n", 12, 12345);
+        fclose(outfile);
 
         millisleep(100);
     }

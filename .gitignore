@@ -4,6 +4,7 @@ gr-scan/gr-scan
 grc/*.py
 
 cpp/tx-rx
+cpp/out
 
 python/out
 venv/
