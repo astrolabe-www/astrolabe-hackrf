@@ -23,15 +23,11 @@ uint32_t vga_gain = 22;
 uint32_t txvga_gain = 42;
 uint32_t sample_rate_hz = SAMPLE_RATE_MHZ * 1e6;
 
-uint64_t samples_to_rxfer = 1 << 22; // ~ 4e6
+uint64_t samples_to_rxfer = 1 << 20; // ~ 1e6
 uint64_t bytes_to_rxfer = 2 * samples_to_rxfer;
 int8_t* rxsamples;
 int8_t rxsamples_max;
 int8_t rxsamples_min;
-
-//fftwf_complex* fftwIn = NULL;
-//fftwf_complex* fftwOut = NULL;
-//fftwf_plan fftwPlan = NULL;
 
 int tx_callback(hackrf_transfer* transfer) {
     for(unsigned int i = 0; i < transfer->buffer_length; i++)
@@ -59,21 +55,9 @@ int rx_callback(hackrf_transfer* transfer) {
         }
     }
 
-//    for(unsigned int i = 0; i < bytes_to_read; i += 2) {
-//        fftwIn[(offset + i) / 2][0] = tbuf[i + 0]  / 128.0f;
-//        fftwIn[(offset + i) / 2][1] = tbuf[i + 1] / 128.0f;
-//    }
-
     bytes_to_rxfer -= bytes_to_read;
     return 0;
 }
-
-//float logPower(fftwf_complex in, float scale) {
-//	float re = in[0] * scale;
-//	float im = in[1] * scale;
-//	float magsq = re * re + im * im;
-//	return (float) (log2(magsq) * 10.0f / log2(10.0f));
-//}
 
 void millisleep(int mls) {
     struct timespec sleep_m;
@@ -85,8 +69,6 @@ void millisleep(int mls) {
 
 void cleanUpExit() {
     free(rxsamples);
-//    fftwf_free(fftwIn);
-//    fftwf_free(fftwOut);
     hackrf_exit();
 }
 
@@ -134,9 +116,6 @@ int main(int argc, char** argv) {
     strncpy(outfilename, outfilename_root, 128);
 
     rxsamples = (int8_t*) calloc(bytes_to_rxfer, sizeof(int8_t));
-//    fftwIn = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * samples_to_rxfer);
-//    fftwOut = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * samples_to_rxfer);
-//    fftwPlan = fftwf_plan_dft_1d(samples_to_rxfer, fftwIn, fftwOut, FFTW_FORWARD, FFTW_ESTIMATE);
 
     /////// init hackrf env
     if(check(hackrf_init(), "hackrf_init")) {
@@ -197,8 +176,6 @@ int main(int argc, char** argv) {
         }
         millisleep(100);
 
-//        fftwf_execute(fftwPlan);
-
         strncpy(outfilename, outfilename_root, 128);
 
         char intbuf[10];
@@ -208,28 +185,7 @@ int main(int argc, char** argv) {
         FILE *outfile = fopen(outfilename, "wb");
         fwrite(rxsamples, sizeof(int8_t), 2 * samples_to_rxfer, outfile);
         fclose(outfile);
-
-//        strcat(outfilename, ".csv");
-//        FILE *outfile = fopen(outfilename,"a");
-//
-//        float fftstep = SAMPLE_RATE_MHZ * 1e6 / samples_to_rxfer;
-//        for (unsigned int i = 1; i < samples_to_rxfer / 2; i += 50e3) {
-//            float mpower = logPower(fftwOut[i], 1.0f / samples_to_rxfer);
-//            float freq = (txrx_freq_hz + (i * fftstep)) / 1e6;
-//            fprintf(outfile, "%f,%f\n", freq, mpower);
-//		}
-//        fclose(outfile);
     }
-
-    /*
-    fprintf(stdout, "first\n");
-    fprintf(stdout, "%d %d\n", rxsamples[0], rxsamples[1]);
-    fprintf(stdout, "%f %f\n", fftwIn[0][0], fftwIn[0][1]);
-
-    fprintf(stdout, "last\n");
-    fprintf(stdout, "%d %d\n", rxsamples[2 * samples_to_rxfer - 2], rxsamples[2 * samples_to_rxfer - 1]);
-    fprintf(stdout, "%f %f\n", fftwIn[samples_to_rxfer - 1][0], fftwIn[samples_to_rxfer - 1][1]);
-    /**/
 
     cleanUpExit();
     return EXIT_SUCCESS;
