@@ -24,6 +24,5 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
         tx.enable_amp()
         tx.txvga_gain = 42
         tx.transmit_noise()
-        sleep(.1)
-        tx.stop_tx()
+        sleep(.5)
         tx.close()
