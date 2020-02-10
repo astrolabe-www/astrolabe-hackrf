@@ -1,16 +1,14 @@
-gr-scan/gr-scan
 .DS*
 *.pyc
 grc/*.py
 
-cpp/tx-rx
-cpp/tx
-cpp/rx
-cpp/nostop-tx
-cpp/nostop-rx
-cpp/test-tx
-cpp/test-rx
-cpp/out
+gr-scan/gr-scan
 
-python/out
-venv/
+cpp/bin/*
+!cpp/bin/.gitkeep
+
+cpp/out/*
+!cpp/out/.gitkeep
+
+python/out/*
+!python/out/.gitkeep
