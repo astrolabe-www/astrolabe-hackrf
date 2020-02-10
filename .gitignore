@@ -4,6 +4,8 @@ gr-scan/gr-scan
 grc/*.py
 
 cpp/tx-rx
+cpp/tx
+cpp/rx
 cpp/out
 
 python/out
