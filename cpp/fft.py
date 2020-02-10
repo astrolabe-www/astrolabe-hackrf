@@ -34,24 +34,25 @@ def main(argv):
         elif opt in ('-o', '--out'):
             outfilename = str(arg)
 
+    freq_to_power = {}
     for filename in sort(listdir("out/")):
         if filename.startswith(infileprefix):
             Fc = int(sub('[\D]', '', filename))
+            print(Fc)
             with open(path.join("out", filename), "rb") as file:
                 samples = bytes2iq(bytearray(file.read()))
                 mean = np.mean(samples)
                 samples = samples - mean
-                
-                freq_to_power = {}
+
                 Ps, fs = psd(samples, NFFT=FFT_SIZE, Fs=20, Fc=Fc)
 
                 for i in range(len(Ps)):
                     if (fs[i] % 1.0 == 0.0):
                         freq_to_power[fs[i]] = np.log(Ps[i])
 
-                with open(path.join('out', outfilename), 'a') as out:
-                    for freq in freq_to_power:
-                        out.write('%s,%s\n' % (freq, freq_to_power[freq]))
+    with open(path.join('out', outfilename), 'a') as out:
+        for freq in freq_to_power:
+            out.write('%s,%s\n' % (freq, freq_to_power[freq]))
 
 if __name__ == "__main__":
     main(sys.argv[1:])
