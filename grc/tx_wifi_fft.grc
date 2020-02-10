@@ -93,7 +93,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>100e6</value>
+      <value>700e6</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -211,14 +211,14 @@
     </param>
     <param>
       <key>value</key>
-      <value>1e6</value>
+      <value>20e6</value>
     </param>
   </block>
   <block>
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
-      <value>0.9</value>
+      <value>100</value>
     </param>
     <param>
       <key>alias</key>
