@@ -19,7 +19,7 @@ def bytes2iq(data):
 
 def main(argv):
     outfilename = 'pyout.csv'
-    infileprefix = 'out_big'
+    infileprefix = 'out_bytes'
 
     FFT_SIZE = 64
 
@@ -46,7 +46,7 @@ def main(argv):
                 Ps, fs = psd(samples, NFFT=FFT_SIZE, Fs=20, Fc=Fc)
 
                 for i in range(len(Ps)):
-                    if (fs[i] % 0.5 == 0.0):
+                    if (fs[i] % 1.0 == 0.0):
                         freq_to_power[fs[i]] = np.log(Ps[i])
 
                 with open(path.join('out', outfilename), 'a') as out:

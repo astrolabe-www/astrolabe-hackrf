@@ -49,7 +49,6 @@ int rx_callback(hackrf_transfer* transfer) {
 
     int offset = 2 * samples_to_rxfer - bytes_to_rxfer;
 
-    /**/
     for(unsigned int i = 0; i < bytes_to_read; i++) {
         rxsamples[offset + i] = tbuf[i];
         if(tbuf[i] > rxsamples_max) {
@@ -59,25 +58,22 @@ int rx_callback(hackrf_transfer* transfer) {
             rxsamples_min = tbuf[i];
         }
     }
-    /**/
 
-    /*
-    for(unsigned int i = 0; i < bytes_to_read; i += 2) {
-        fftwIn[(offset + i) / 2][0] = tbuf[i + 0]  / 128.0f;
-        fftwIn[(offset + i) / 2][1] = tbuf[i + 1] / 128.0f;
-    }
-    /**/
+//    for(unsigned int i = 0; i < bytes_to_read; i += 2) {
+//        fftwIn[(offset + i) / 2][0] = tbuf[i + 0]  / 128.0f;
+//        fftwIn[(offset + i) / 2][1] = tbuf[i + 1] / 128.0f;
+//    }
 
     bytes_to_rxfer -= bytes_to_read;
     return 0;
 }
 
-float logPower(fftwf_complex in, float scale) {
-	float re = in[0] * scale;
-	float im = in[1] * scale;
-	float magsq = re * re + im * im;
-	return (float) (log2(magsq) * 10.0f / log2(10.0f));
-}
+//float logPower(fftwf_complex in, float scale) {
+//	float re = in[0] * scale;
+//	float im = in[1] * scale;
+//	float magsq = re * re + im * im;
+//	return (float) (log2(magsq) * 10.0f / log2(10.0f));
+//}
 
 void millisleep(int mls) {
     struct timespec sleep_m;
@@ -184,7 +180,6 @@ int main(int argc, char** argv) {
         while(bytes_to_rxfer > 0) {
             millisleep(10);
         }
-        printf("minmax: %d %d\n", rxsamples_min, rxsamples_max);
 
         // stop rx and tx
         if(check(hackrf_stop_tx(tx_device), "tx stop")) {
@@ -202,28 +197,28 @@ int main(int argc, char** argv) {
         }
         millisleep(100);
 
-        // fftwf_execute(fftwPlan);
+//        fftwf_execute(fftwPlan);
 
-        /*
         strncpy(outfilename, outfilename_root, 128);
 
-        char intbuf[9];
-        snprintf(intbuf, 9, "_%03d.csv", rxf);
+        char intbuf[10];
+        snprintf(intbuf, 10, "_%04d.csv", rxf);
         strcat(outfilename, intbuf);
 
         FILE *outfile = fopen(outfilename, "wb");
         fwrite(rxsamples, sizeof(int8_t), 2 * samples_to_rxfer, outfile);
-
-        float fftstep = SAMPLE_RATE_MHZ * 1e6 / samples_to_rxfer;
-        for (unsigned int i = 1; i < samples_to_rxfer / 2; i++) {
-            float mpower = logPower(fftwOut[i], 1.0f / samples_to_rxfer);
-            float freq = (txrx_freq_hz + (i * fftstep)) / 1e6;
-            if(fmod(freq, 1.0) == 0.0)
-                fprintf(outfile, "%f,%f\n", freq, mpower);
-		}
-
         fclose(outfile);
-        */
+
+//        strcat(outfilename, ".csv");
+//        FILE *outfile = fopen(outfilename,"a");
+//
+//        float fftstep = SAMPLE_RATE_MHZ * 1e6 / samples_to_rxfer;
+//        for (unsigned int i = 1; i < samples_to_rxfer / 2; i += 50e3) {
+//            float mpower = logPower(fftwOut[i], 1.0f / samples_to_rxfer);
+//            float freq = (txrx_freq_hz + (i * fftstep)) / 1e6;
+//            fprintf(outfile, "%f,%f\n", freq, mpower);
+//		}
+//        fclose(outfile);
     }
 
     /*
