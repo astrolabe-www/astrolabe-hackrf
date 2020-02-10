@@ -6,6 +6,10 @@ grc/*.py
 cpp/tx-rx
 cpp/tx
 cpp/rx
+cpp/nostop-tx
+cpp/nostop-rx
+cpp/test-tx
+cpp/test-rx
 cpp/out
 
 python/out

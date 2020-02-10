@@ -7,8 +7,8 @@
 
 static hackrf_device* tx_device = NULL;
 
-unsigned int MIN_FREQ_MHZ = 100;
-unsigned int MAX_FREQ_MHZ = 1000;
+unsigned int MIN_FREQ_MHZ = 190;
+unsigned int MAX_FREQ_MHZ = 210;
 unsigned int SAMPLE_RATE_MHZ = 20;
 
 // Last HackRf to be plugged in is id=0
@@ -79,9 +79,9 @@ int main(int argc, char** argv) {
 
 
     ////// start and stop tx many times
-    for(uint16_t rxf = MIN_FREQ_MHZ; rxf <= MAX_FREQ_MHZ; rxf += SAMPLE_RATE_MHZ) {
+    for(uint16_t rxf = MIN_FREQ_MHZ; rxf <= MAX_FREQ_MHZ; rxf += 2) {
         fprintf(stdout, "txing %d MHz\n", rxf);
-        txrx_freq_hz = 200 * 1e6;
+        txrx_freq_hz = rxf * 1e6;
 
         // start tx
         if(check(hackrf_set_freq(tx_device, txrx_freq_hz) |
