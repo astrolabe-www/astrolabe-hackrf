@@ -10,8 +10,8 @@
 
 static hackrf_device* rx_device = NULL;
 
-unsigned int MIN_FREQ_MHZ = 50;
-unsigned int MAX_FREQ_MHZ = 2550;
+unsigned int MIN_FREQ_MHZ = 100;
+unsigned int MAX_FREQ_MHZ = 1000;
 unsigned int SAMPLE_RATE_MHZ = 20;
 
 // Last HackRf to be plugged in is id=0
@@ -103,7 +103,7 @@ int main(int argc, char** argv) {
     ////// start and stop tx many times
     for(uint16_t rxf = MIN_FREQ_MHZ; rxf <= MAX_FREQ_MHZ; rxf += SAMPLE_RATE_MHZ) {
         fprintf(stdout, "rxing %d MHz\n", rxf);
-        txrx_freq_hz = rxf * 1e6;
+        txrx_freq_hz = 700 * 1e6;
 
         // start rx
         bytes_to_rxfer = 2 * samples_to_rxfer;
