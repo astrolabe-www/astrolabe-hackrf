@@ -10,12 +10,16 @@
 
 static hackrf_device* rx_device = NULL;
 
-unsigned int MIN_FREQ_MHZ = 300;
-unsigned int MAX_FREQ_MHZ = 400;
+unsigned int MIN_FREQ_MHZ = 50;
+unsigned int MAX_FREQ_MHZ = 2550;
 unsigned int SAMPLE_RATE_MHZ = 20;
 
 // Last HackRf to be plugged in is id=0
 int RX_ID = 1;
+
+uint32_t lna_gain = 16;
+uint32_t vga_gain = 22;
+uint32_t sample_rate_hz = SAMPLE_RATE_MHZ * 1e6;
 
 uint64_t samples_to_rxfer = 1 << 23; // ~ 8e6
 uint64_t bytes_to_rxfer = 2 * samples_to_rxfer;
@@ -73,10 +77,17 @@ int check(int result, const char msg[]) {
     }
 }
 
+int initRx(uint32_t freq) {
+    return hackrf_set_sample_rate(rx_device, sample_rate_hz) |
+        hackrf_set_hw_sync_mode(rx_device, 0) |
+        hackrf_set_amp_enable(rx_device, 1) |
+        hackrf_set_antenna_enable(rx_device, 0) |
+        hackrf_set_lna_gain(rx_device, lna_gain) |
+        hackrf_set_vga_gain(rx_device, vga_gain) |
+        hackrf_set_freq(rx_device, freq);
+}
+
 int main(int argc, char** argv) {
-    uint32_t lna_gain = 16;
-    uint32_t vga_gain = 22;
-    uint32_t sample_rate_hz = SAMPLE_RATE_MHZ * 1e6;
     uint32_t txrx_freq_hz = MIN_FREQ_MHZ * 1e6;
 
     rxsamples = (int8_t*) calloc(bytes_to_rxfer, sizeof(int8_t));
@@ -89,41 +100,26 @@ int main(int argc, char** argv) {
     /////// init hackrf
     hackrf_device_list_t* device_list = hackrf_device_list();
 
-    if(check(hackrf_device_list_open(device_list, RX_ID, &rx_device), "rx open")) {
-        return EXIT_FAILURE;
-    }
-
-    /////// set sample rates
-    if(check(hackrf_set_sample_rate(rx_device, sample_rate_hz), "rx sample rate")) {
-        return EXIT_FAILURE;
-    }
-
-    ////// set sync mode
-    if(check(hackrf_set_hw_sync_mode(rx_device, 0), "rx hw sync")){
-        return EXIT_FAILURE;
-    }
-
-    ///// set rx gains
-    if(check(hackrf_set_amp_enable(rx_device, 1) |
-             hackrf_set_antenna_enable(rx_device, 0), "rx antenna + amp")) {
-        return EXIT_FAILURE;
-    }
-    if(check(hackrf_set_vga_gain(rx_device, vga_gain) |
-             hackrf_set_lna_gain(rx_device, lna_gain), "rx gains")) {
-        return EXIT_FAILURE;
-    }
-
     ////// start and stop tx many times
     for(uint16_t rxf = MIN_FREQ_MHZ; rxf <= MAX_FREQ_MHZ; rxf += SAMPLE_RATE_MHZ) {
         fprintf(stdout, "rxing %d MHz\n", rxf);
-        txrx_freq_hz = 200 * 1e6;
+        txrx_freq_hz = rxf * 1e6;
 
         // start rx
         bytes_to_rxfer = 2 * samples_to_rxfer;
         rxsamples_max = 0;
         rxsamples_min = 0;
-        if(check(hackrf_set_freq(rx_device, txrx_freq_hz) |
-                 hackrf_start_rx(rx_device, rx_callback, NULL), "rx start")) {
+
+        if(check(hackrf_device_list_open(device_list, RX_ID, &rx_device), "rx open")) {
+            return EXIT_FAILURE;
+        }
+
+        if(check(initRx(txrx_freq_hz), "init Rx")) {
+            return EXIT_FAILURE;
+        }
+
+        ///// start rx
+        if(check(hackrf_start_rx(rx_device, rx_callback, NULL), "rx start")) {
             return EXIT_FAILURE;
         }
 
@@ -132,17 +128,15 @@ int main(int argc, char** argv) {
         }
         printf("minmax: %d %d\n", rxsamples_min, rxsamples_max);
 
-        // stop rx and tx
+        // stop rx
         if(check(hackrf_stop_rx(rx_device), "rx stop")) {
+            return EXIT_FAILURE;
+        }
+        if(check(hackrf_close(rx_device), "rx close")) {
             return EXIT_FAILURE;
         }
 
         millisleep(100);
-    }
-
-    //// close device
-    if(check(hackrf_close(rx_device), "rx close")) {
-        return EXIT_FAILURE;
     }
 
     cleanUpExit();
