@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sys
-import getopt
 
 from os import path, listdir
 from re import search, sub
@@ -18,21 +17,12 @@ def bytes2iq(data):
     return iq
 
 def main(argv):
-    outfilename = 'pyout.csv'
-    infileprefix = 'out_bytes'
+    name = raw_input("Enter file prefix: ")
+
+    infileprefix = "out_%s" % name
+    outfilename = 'pyout_%s.csv' % name
 
     FFT_SIZE = 64
-
-    options, remainder = getopt.getopt(argv, 'c:s:i:o:', ['fc=', 'fs=', 'id=', 'out='])
-    for opt, arg in options:
-        if opt in ('-c', '--fc'):
-            fc = int(arg)
-        elif opt in ('-s', '--fs'):
-            fs = int(arg)
-        elif opt in ('-i', '--id'):
-            device_index = int(arg)
-        elif opt in ('-o', '--out'):
-            outfilename = str(arg)
 
     freq_to_power = {}
     for filename in sort(listdir("out/")):
