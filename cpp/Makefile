@@ -10,7 +10,7 @@ all: \
     bin/test-tx \
     bin/nostop-rx \
     bin/nostop-tx \
-    bin/nostop-tx-rx
+    bin/nostop
 
 bin/tx-rx: tx-rx.c
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(BREWLIBDIR) tx-rx.c -o bin/tx-rx $(LDLIBS) $(LDFLAGS)
@@ -22,8 +22,8 @@ bin/nostop-rx: nostop-rx.c
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(BREWLIBDIR) nostop-rx.c -o bin/nostop-rx $(LDLIBS) $(LDFLAGS)
 bin/nostop-tx: nostop-tx.c
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(BREWLIBDIR) nostop-tx.c -o bin/nostop-tx $(LDLIBS) $(LDFLAGS)
-bin/nostop-tx-rx: nostop-tx-rx.c
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(BREWLIBDIR) nostop-tx-rx.c -o bin/nostop-tx-rx $(LDLIBS) $(LDFLAGS)
+bin/nostop: nostop-tx-rx.c
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(BREWLIBDIR) nostop-tx-rx.c -o bin/nostop $(LDLIBS) $(LDFLAGS)
 
 clean:
 	rm -f bin/*
