@@ -3,7 +3,7 @@
 import sys
 
 from os import path, listdir
-from re import search, sub
+from re import findall, sub
 from time import sleep
 
 from pylab import *
@@ -27,7 +27,7 @@ def main(argv):
     freq_to_power = {}
     for filename in sort(listdir("out/")):
         if filename.startswith(infileprefix):
-            Fc = int(sub('[\D]', '', filename))
+            Fc = int(sub(r'[_\.csv]', '', findall(r'_[0-9]+\.csv', filename)[0]))
             print(Fc)
             with open(path.join("out", filename), "rb") as file:
                 samples = bytes2iq(bytearray(file.read()))
