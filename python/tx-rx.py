@@ -6,8 +6,8 @@ sys.path.append('./pyhackrf')
 from libhackrf import *
 from pylab import *
 
-MIN_FREQ_MHZ = 50
-MAX_FREQ_MHZ = 2550
+MIN_FREQ_MHZ = 10
+MAX_FREQ_MHZ = 3000
 SAMPLE_RATE_MHZ = 20
 
 # Last HackRf to be plugged in is id=0
@@ -25,7 +25,7 @@ for rxf in range(MIN_FREQ_MHZ, MAX_FREQ_MHZ + 1, SAMPLE_RATE_MHZ):
     tx.open()
     tx.center_freq = rxf * 1e6
     tx.enable_amp()
-    tx.txvga_gain = 42
+    tx.txvga_gain = 44
     tx.transmit_noise()
 
     rxp = Popen(['./rx-cmd.py', '-c%s'%rxf, '-s%s'%SAMPLE_RATE_MHZ, '-i%s'%RX_ID, '-o%s'%filename])

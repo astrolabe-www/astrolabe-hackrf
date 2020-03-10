@@ -18,9 +18,9 @@ unsigned int SAMPLE_RATE_MHZ = 20;
 // Last HackRf to be plugged in is id=0
 int RX_ID = 0;
 
-uint32_t lna_gain = 0;
-uint32_t vga_gain = 4;
-uint32_t txvga_gain = 42;
+uint32_t lna_gain = 32;
+uint32_t vga_gain = 52;
+uint32_t txvga_gain = 44;
 uint32_t sample_rate_hz = SAMPLE_RATE_MHZ * 1e6;
 
 uint64_t samples_to_rxfer = 1 << 20; // ~ 1e6

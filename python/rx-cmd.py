@@ -34,8 +34,8 @@ def main(argv):
     rx.sample_rate = fs * 1e6
     rx.center_freq = fc * 1e6
     rx.enable_amp()
-    rx.lna_gain = 16
-    rx.vga_gain = 22
+    rx.lna_gain = 32
+    rx.vga_gain = 52
 
     samples = rx.read_samples(2e6)
     mean = np.mean(samples)
