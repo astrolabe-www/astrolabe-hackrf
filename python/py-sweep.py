@@ -1,6 +1,8 @@
 import sys
 from time import sleep
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 import numpy as np
 
 sys.path.append('./pyhackrf')
