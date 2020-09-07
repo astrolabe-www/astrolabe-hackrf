@@ -6,7 +6,9 @@ from os import path, listdir
 from re import findall, sub
 from time import sleep
 
-from pylab import *
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 
 def bytes2iq(data):
     values = np.array(data).astype(np.int8)
@@ -34,7 +36,7 @@ def main(argv):
                 mean = np.mean(samples)
                 samples = samples - mean
 
-                Ps, fs = psd(samples, NFFT=FFT_SIZE, Fs=20, Fc=Fc)
+                Ps, fs = plt.psd(samples, NFFT=FFT_SIZE, Fs=20, Fc=Fc)
 
                 for i in range(len(Ps)):
                     if (fs[i] % 1.0 == 0.0):
