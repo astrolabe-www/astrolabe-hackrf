@@ -9,6 +9,7 @@ from time import sleep
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
+import numpy as np
 
 def bytes2iq(data):
     values = np.array(data).astype(np.int8)
@@ -27,7 +28,7 @@ def main(argv):
     FFT_SIZE = 64
 
     freq_to_power = {}
-    for filename in sort(listdir("out/")):
+    for filename in sorted(listdir("out/")):
         if filename.startswith(infileprefix):
             Fc = int(sub(r'[_\.csv]', '', findall(r'_[0-9]+\.csv', filename)[0]))
             print(Fc)
