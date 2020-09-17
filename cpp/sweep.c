@@ -10,8 +10,8 @@
 
 static hackrf_device* rx_device = NULL;
 
-unsigned int MIN_FREQ_MHZ = 50;
-unsigned int MAX_FREQ_MHZ = 2550;
+unsigned int MIN_FREQ_MHZ = 10;
+unsigned int MAX_FREQ_MHZ = 3000;
 unsigned int SAMPLE_RATE_MHZ = 20;
 
 // Last HackRf to be plugged in is id=0
