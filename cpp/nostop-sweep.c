@@ -6,7 +6,6 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include <fftw3.h>
 
 static hackrf_device* rx_device = NULL;
 

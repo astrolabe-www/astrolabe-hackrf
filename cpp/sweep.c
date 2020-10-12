@@ -6,7 +6,6 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include <fftw3.h>
 
 static hackrf_device* rx_device = NULL;
 
@@ -17,12 +16,13 @@ unsigned int SAMPLE_RATE_MHZ = 20;
 // Last HackRf to be plugged in is id=0
 int RX_ID = 0;
 
-uint32_t lna_gain = 16;
-uint32_t vga_gain = 22;
+uint32_t lna_gain = 32;
+uint32_t vga_gain = 52;
 uint32_t sample_rate_hz = SAMPLE_RATE_MHZ * 1e6;
 
 uint64_t samples_to_rxfer = 1 << 20; // ~ 1e6
 uint64_t bytes_to_rxfer = 2 * samples_to_rxfer;
+
 int8_t* rxsamples;
 int8_t rxsamples_max;
 int8_t rxsamples_min;
