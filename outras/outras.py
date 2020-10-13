@@ -2,7 +2,8 @@
 
 import sys
 
-from os import path, listdir, getenv
+from os import path, listdir, getenv, unlink
+from subprocess import Popen
 from re import findall, sub
 from time import sleep
 
@@ -29,8 +30,13 @@ def main(argv):
 
     ## TODO:
     ## once a minute:
-      ## clear out/
-      ## run outras.c
+
+    for filename in sorted(listdir("tmp/")):
+      if filename.startswith(infileprefix) and filename.endswith(".csv"):
+        unlink(path.join("tmp", filename))
+
+    op = Popen([path.join(".", "bin", "outras")])
+    op.wait()
 
     freq_to_avg = {}
     for filename in sorted(listdir("tmp/")):
