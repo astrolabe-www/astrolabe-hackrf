@@ -5,7 +5,7 @@ import sys
 from os import path, listdir, getenv, unlink
 from subprocess import Popen
 from re import findall, sub
-from time import sleep
+from time import time, sleep
 
 from requests import post
 
@@ -24,12 +24,9 @@ def bytes2iq(data):
     iq -= (1 + 1j)
     return iq
 
-def main(argv):
+def loop():
     infileprefix = "out_outras"
     FFT_SIZE = 64
-
-    ## TODO:
-    ## once a minute:
 
     for filename in sorted(listdir("tmp/")):
       if filename.startswith(infileprefix) and filename.endswith(".csv"):
@@ -66,6 +63,16 @@ def main(argv):
       print url
       post(url)
 
+def main(argv):
+    while True:
+        loopStart = time()
+        loop()
+        loopTime = time() - loopStart
+        if (loopTime < 60):
+            sleep(60 - loopTime)
+
 if __name__ == "__main__":
-    main(sys.argv[1:])
-    sys.exit()
+    try:
+        main(sys.argv[1:])
+    except KeyboardInterrupt:
+        sys.exit()
