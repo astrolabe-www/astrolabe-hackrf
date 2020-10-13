@@ -8,3 +8,5 @@ python-dateutil==2.8.0
 pytz==2019.2
 six==1.12.0
 subprocess32==3.5.4
+python-dotenv==0.14.0
+requests==2.24.0

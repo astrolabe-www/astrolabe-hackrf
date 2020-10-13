@@ -2,9 +2,14 @@
 
 import sys
 
-from os import path, listdir
+from os import path, listdir, getenv
 from re import findall, sub
 from time import sleep
+
+from requests import post
+
+from dotenv import load_dotenv
+load_dotenv()
 
 import matplotlib
 matplotlib.use('Agg')
@@ -28,12 +33,12 @@ def main(argv):
       ## run outras.c
 
     freq_to_avg = {}
-    for filename in sorted(listdir("out/")):
+    for filename in sorted(listdir("tmp/")):
         if filename.startswith(infileprefix):
             powers = []
             Fc = int(sub(r'[_\.csv]', '', findall(r'_[0-9]+\.csv', filename)[0]))
-            print(Fc)
-            with open(path.join("out", filename), "rb") as file:
+
+            with open(path.join("tmp", filename), "rb") as file:
                 samples = bytes2iq(bytearray(file.read()))
                 mean = np.mean(samples)
                 samples = samples - mean
@@ -45,11 +50,15 @@ def main(argv):
 
             avg = sum(powers) / len(powers)
             freq_to_avg[Fc] = avg
-            print "%s %s" % (Fc, avg)
 
-    ## TODO:
-    ## map avgs: [-10, 0] -> [0, 1]
-    ## POST to API
+    for (k, v) in freq_to_avg.iteritems():
+      vnorm = (v + 10.0) / 10.0
+      url = "https://%s%s%s/HACKRF_%s/%0.2f" % (getenv('API_URL'),
+                                                getenv('API_ENDPOINT'),
+                                                getenv('API_TOKEN'),
+                                                k, vnorm)
+      print url
+      post(url)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

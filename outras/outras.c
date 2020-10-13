@@ -103,7 +103,7 @@ int main(int argc, char** argv) {
 
     char outfilename_root[128];
     char outfilename[128];
-    strcpy(outfilename_root, "out/out_outras");
+    strcpy(outfilename_root, "tmp/out_outras");
     strncpy(outfilename, outfilename_root, 128);
 
     rxsamples = (int8_t*) calloc(bytes_to_rxfer, sizeof(int8_t));

@@ -12,3 +12,11 @@ cpp/out/*
 
 python/out/*
 !python/out/.gitkeep
+
+outras/bin/*
+!outras/bin/.gitkeep
+
+outras/tmp/*
+!outras/tmp/.gitkeep
+
+outras/.env
