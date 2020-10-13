@@ -12,7 +12,8 @@ all: \
     bin/nostop-sweep \
     bin/nostop-rx \
     bin/nostop-tx \
-    bin/nostop
+    bin/nostop \
+    bin/outras
 
 bin/sweep: sweep.c
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(BREWLIBDIR) sweep.c -o bin/sweep $(LDLIBS) $(LDFLAGS)
@@ -30,6 +31,8 @@ bin/nostop-tx: nostop-tx.c
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(BREWLIBDIR) nostop-tx.c -o bin/nostop-tx $(LDLIBS) $(LDFLAGS)
 bin/nostop: nostop-tx-rx.c
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(BREWLIBDIR) nostop-tx-rx.c -o bin/nostop $(LDLIBS) $(LDFLAGS)
+bin/outras: outras.c
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(INCDIR) -L$(BREWLIBDIR) outras.c -o bin/outras $(LDLIBS) $(LDFLAGS)
 
 clean:
 	rm -f bin/*
