@@ -7,7 +7,7 @@ from subprocess import Popen
 from re import findall, sub
 from time import time, sleep
 
-from requests import post
+from requests import post, exceptions
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -60,8 +60,16 @@ def loop():
                                                 getenv('API_ENDPOINT'),
                                                 getenv('API_TOKEN'),
                                                 k, vnorm)
-      print url
-      post(url)
+
+      for i in range(5):
+        print "%s : %s" % (i, url)
+        try:
+          post(url)
+        except Exception as e:
+          print e
+          sleep(2)
+        else:
+          break
 
 def main(argv):
     while True:
